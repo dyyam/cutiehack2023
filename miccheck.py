@@ -3,7 +3,6 @@ import sys
 import pyaudio
 import pygame
 
-import recordAudio as recording
 
 #Setting up Game
 pygame.init
@@ -27,6 +26,7 @@ while running:
             running = False
         elif keys[pygame.K_SPACE]:
             #code
+            print('recording :3')
 
 
 
