@@ -15,6 +15,11 @@ icon = pygame.image.load('./images/miccheck_icon.png')
 pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 
+buttonSizeScale = (80, 80)
+redplaybutton = pygame.transform.scale(pygame.image.load("images/redplay.png"), buttonSizeScale)
+greenplaybutton = pygame.transform.scale(pygame.image.load("images/greenplay.png"), buttonSizeScale)
+
+
 #Setting up Global Variables
 leaveScreen = False
 running = True
@@ -59,13 +64,28 @@ def game_recording():
                 #code
                 ra.record()
 
+        
+
         #Rendering new things onto screen
         screen.fill(color)
             #screen.blit //puts images onto screen
-
+        playSoundButton(100, 100, 100, 100, redplaybutton, "sounds/dog/dog1.wav")
         #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
+
+def playSoundButton(x, y, w, h, img, soundFile):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    rect = pygame.Rect(x, y, w, h)
+    on_button = rect.collidepoint(mouse)
+
+    screen.blit(img, img.get_rect(center = rect.center))
+
+    if on_button:
+        if click[0] == 1:
+            ra.playAudio(soundFile)
 
 
 game_intro()
