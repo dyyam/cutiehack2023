@@ -23,27 +23,30 @@ def record():
 
     frames = []  # Initialize array to store frames
 
+    
     if keyboard.is_pressed("space"): 
         print('Recording...')
         while keyboard.is_pressed("space"):
             data = stream.read(chunk)                                        
             frames.append(data)
+            
+        # Stop and close the stream 
+        stream.stop_stream()
+        stream.close()
+        # Terminate the PortAudio interface
+        p.terminate()
 
-    # Stop and close the stream 
-    stream.stop_stream()
-    stream.close()
-    # Terminate the PortAudio interface
-    p.terminate()
+        print('Finished recording!')
 
-    print('Finished recording!')
+        # Save the recorded data as a WAV file
+        wf = wave.open(filename, 'wb')
+        wf.setnchannels(channels)
+        wf.setsampwidth(p.get_sample_size(sample_format))
+        wf.setframerate(fs)
+        wf.writeframes(b''.join(frames))
+        wf.close()
 
-    # Save the recorded data as a WAV file
-    wf = wave.open(filename, 'wb')
-    wf.setnchannels(channels)
-    wf.setsampwidth(p.get_sample_size(sample_format))
-    wf.setframerate(fs)
-    wf.writeframes(b''.join(frames))
-    wf.close()
+
 
 
 def playAudio(soundFile):

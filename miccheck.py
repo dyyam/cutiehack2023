@@ -44,7 +44,7 @@ def game_intro():
 def game_recording():
     global running
     global leaveScreen
-    
+
     leaveScreen = False
     while running and not leaveScreen:
         #Poll for events
