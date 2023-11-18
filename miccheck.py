@@ -56,6 +56,7 @@ def title_screen():
         screen.blit(subtitle, subtitle_rect)
             #play button
             #how to play button
+            #hehehaha
 
         #Updating displaying the new screen
         pygame.display.update()
