@@ -35,7 +35,6 @@ color = (245, 245, 220)
 
 
 def title_screen():
-    #FIxme: title screen not centering
     global running
     global leaveScreen
 
@@ -118,10 +117,37 @@ def recording_screen():
         clock.tick(60)
 
 def guessing_screen():
-    
+    global running
+    global leaveScreen
 
+    #Setting the Text Size, Font, and Placement
+    title_font = pygame.font.SysFont('Comic Sans MS', 40)
+    title = title_font.render('Which one is the imposter?', True, (0, 0, 0))
+    title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/16))
+
+    prompt_font = pygame.font.SysFont('Comic Sans MS', 35)
+    prompt = prompt_font.render('The prompt was: Dog', True, (0, 120, 0))
+    prompt_rect = prompt.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/8))
+
+    leaveScreen = False
+
+    while running and not leaveScreen:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
+                running = False
+            elif keys[pygame.K_RETURN]:
+                leaveScreen = True
     
-    pass
+        #Rendering new things onto screen
+        screen.fill((211, 211, 222))
+        screen.blit(title, title_rect)
+        screen.blit(prompt, prompt_rect)
+
+        #Updating displaying the new screen
+        pygame.display.update()
+        clock.tick(60)
+
 
 
 def playSoundButton(x, y, w, h, img, soundFile):
