@@ -56,18 +56,13 @@ def title_screen():
                 running = False
             elif keys[pygame.K_RETURN]:
                 leaveScreen = True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if checkButtonPress(SCREEN_WIDTH/2 + 50, SCREEN_HEIGHT/2 + 160, 100, 100):
-                    leaveScreen = True
     
         #Rendering new things onto screen
-        print(str(title_playbutton.get_width))
-        print(str(title_playbutton.get_height))
         screen.fill((172,229,238))
         screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 200)))
         screen.blit(title, title_rect)
         screen.blit(subtitle, subtitle_rect)
-        screen.blit(title_playbutton, title.get_rect(center=(SCREEN_WIDTH/2 + 50, SCREEN_HEIGHT/2 + 160)))
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], title_playbutton)
 
         #Updating displaying the new screen
         pygame.display.update()
@@ -124,6 +119,7 @@ def recording_screen():
         pygame.display.update()
         clock.tick(60)
 
+
 def guessing_screen():
     global running
     global leaveScreen
@@ -155,8 +151,6 @@ def guessing_screen():
         #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
-
-
 
 
 def playSoundButton(x, y, w, h, img, soundFile):
@@ -194,19 +188,6 @@ def talkingHead():
         screen.blit(speaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
     else:
         screen.blit(notspeaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
-
-def checkButtonPress(x, y, w, h):
-    rect = pygame.Rect(x, y)
-    mouse = pygame.mouse.get_pos()
-
-
-    result = rect.collidepoint(mouse)
-    if result:
-        print('hehe')
-
-    #return bool
-
-
 
 
 title_screen()
