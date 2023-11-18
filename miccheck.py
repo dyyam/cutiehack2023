@@ -19,7 +19,7 @@ pygame.font.init()
 buttonSizeScale = (50, 50)
 redplaybutton = pygame.transform.scale(pygame.image.load("images/redplay.png"), buttonSizeScale)
 greenplaybutton = pygame.transform.scale(pygame.image.load("images/greenplay.png"), buttonSizeScale)
-
+title_playbutton = pygame.image.load("./images/play_button.png")
 speakingSizeScale = (150, 150)
 notspeaking = pygame.transform.scale(pygame.image.load('./images/notspeaking.png'), speakingSizeScale)
 speaking = pygame.transform.scale(pygame.image.load('./images/speaking.png'), speakingSizeScale)
@@ -41,11 +41,13 @@ def title_screen():
     #Setting the Text Size, Font, and Placement
     title_font = pygame.font.SysFont('Comic Sans MS', 80)
     title = title_font.render('Mic Check', True, (0, 0, 0))
-    title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+    title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 20))
 
     subtitle_font = pygame.font.SysFont('Comic Sans MS', 20)
     subtitle = subtitle_font.render('By: David Yam + Vincent Vo', True, (0,0,0))
-    subtitle_rect = title.get_rect(center=(SCREEN_WIDTH/2 + 60, SCREEN_HEIGHT/2 + 100))
+    subtitle_rect = title.get_rect(center=(SCREEN_WIDTH/2 + 60, SCREEN_HEIGHT/2 + 120))
+
+    icon = pygame.transform.scale(pygame.image.load("images/miccheck_icon.png"), (350, 300))
 
     while running and not leaveScreen:
         keys = pygame.key.get_pressed()
@@ -54,14 +56,18 @@ def title_screen():
                 running = False
             elif keys[pygame.K_RETURN]:
                 leaveScreen = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if checkButtonPress(SCREEN_WIDTH/2 + 50, SCREEN_HEIGHT/2 + 160, 100, 100):
+                    leaveScreen = True
     
         #Rendering new things onto screen
-        screen.fill((211, 211, 222))
+        print(str(title_playbutton.get_width))
+        print(str(title_playbutton.get_height))
+        screen.fill((172,229,238))
+        screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 200)))
         screen.blit(title, title_rect)
         screen.blit(subtitle, subtitle_rect)
-            #play button
-            #how to play button
-            #hehehaha
+        screen.blit(title_playbutton, title.get_rect(center=(SCREEN_WIDTH/2 + 50, SCREEN_HEIGHT/2 + 160)))
 
         #Updating displaying the new screen
         pygame.display.update()
@@ -99,6 +105,8 @@ def recording_screen():
                 running = False
             elif keys[pygame.K_SPACE]:
                 ra.record()
+        
+
 
         #Rendering new things onto screen
         screen.fill(color)
@@ -150,6 +158,7 @@ def guessing_screen():
 
 
 
+
 def playSoundButton(x, y, w, h, img, soundFile):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
@@ -185,6 +194,19 @@ def talkingHead():
         screen.blit(speaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
     else:
         screen.blit(notspeaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
+
+def checkButtonPress(x, y, w, h):
+    rect = pygame.Rect(x, y)
+    mouse = pygame.mouse.get_pos()
+
+
+    result = rect.collidepoint(mouse)
+    if result:
+        print('hehe')
+
+    #return bool
+
+
 
 
 title_screen()
