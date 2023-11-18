@@ -44,12 +44,13 @@ def game_intro():
 def game_recording():
     global running
     global leaveScreen
-
+    
     leaveScreen = False
     while running and not leaveScreen:
         #Poll for events
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
+            # print(event)
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 running = False
             # elif keys[pygame.K_RETURN]:

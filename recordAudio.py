@@ -23,7 +23,6 @@ def record():
 
     frames = []  # Initialize array to store frames
 
-    keyboard.wait("space")
     if keyboard.is_pressed("space"): 
         print('Recording...')
         while keyboard.is_pressed("space"):
