@@ -37,7 +37,6 @@ stream.close()
 p.terminate()
 
 print('Finished recording!')
-print(len(frames))
 
 # Save the recorded data as a WAV file
 wf = wave.open(filename, 'wb')

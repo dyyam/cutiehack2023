@@ -3,6 +3,8 @@ import sys
 import pyaudio
 import pygame
 
+import recordAudio as recording
+
 #Setting up Game
 pygame.init
 screen = pygame.display.set_mode((1280,720), pygame.RESIZABLE)
@@ -21,8 +23,11 @@ while running:
     #poll for events
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
             running = False
+        elif keys[pygame.K_SPACE]:
+            #code
+
 
 
 
