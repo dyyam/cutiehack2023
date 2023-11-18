@@ -1,63 +1,75 @@
+#Libraries
 import wave
 import sys
 import pyaudio
 import pygame
 import recordAudio as ra
 
-#Setting up Game
+
+#Setting up the Game
 pygame.init
-pygame.display.set_caption('Mic Checkers')
 screen = pygame.display.set_mode((1280,720), pygame.RESIZABLE)
-
-clock = pygame.time.Clock()
-running = True
-keys = pygame.key.get_pressed()
-
-#Setting Variables
-color = (245, 245, 220)
+pygame.display.set_caption('Mic Checkers')
 bg = pygame.image.load('./images/miccheck_bg.png')
 icon = pygame.image.load('./images/miccheck_icon.png')
 pygame.display.set_icon(icon)
-green = (0, 255, 0)
+clock = pygame.time.Clock()
+
+#Setting up Global Variables
+leaveScreen = False
+running = True
+color = (245, 245, 220)
+
 
 def game_intro():
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
-                running = False
-            elif keys[pygame.K_RETURN]:
-                print('hello :3')
-    
-    #Rendering new things onto screen
-    screen.fill(green)
+    global running
+    global leaveScreen
 
-    #Updating displaying the new screen
-    pygame.display.update()
-    clock.tick(60)
-
-
-def game_main():
-    running = True
-    while running:
-        #poll for events
+    while running and not leaveScreen:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 running = False
+            elif keys[pygame.K_RETURN]:
+                leaveScreen = True
+    
+        #Rendering new things onto screen
+        screen.fill('white')
+
+        #Updating displaying the new screen
+        pygame.display.update()
+        clock.tick(60)
+
+
+def game_recording():
+    global running
+    global leaveScreen
+
+    leaveScreen = False
+    while running and not leaveScreen:
+        #Poll for events
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
+                running = False
+            # elif keys[pygame.K_RETURN]:
+            #     leaveScreen = True
             elif keys[pygame.K_SPACE]:
                 #code
                 ra.record()
 
-        #remove frames
+        #Rendering new things onto screen
         screen.fill(color)
-        #screen.blit //puts something like text or images onto screen
+            #screen.blit //puts images onto screen
 
-        #render game
-        #pygame.display.flip() #displays screen
+        #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
 
+
 game_intro()
-game_main()
+game_recording()
+#game_guessing()
+    #should we display the correct answer?
+    #way to go back to the intro screen?
 pygame.quit()
