@@ -14,16 +14,28 @@ bg = pygame.image.load('./images/miccheck_bg.png')
 icon = pygame.image.load('./images/miccheck_icon.png')
 pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
+pygame.font.init()
 
 #Setting up Global Variables
+SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
 leaveScreen = False
 running = True
 color = (245, 245, 220)
 
 
-def game_intro():
+def title_screen():
+    #FIxme: title screen not centering
     global running
     global leaveScreen
+
+    #Setting the Text Size, Font, and Placement
+    title_font = pygame.font.SysFont('Comic Sans MS', 80)
+    title = title_font.render('Mic Check', True, (0, 0, 0))
+    title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+
+    subtitle_font = pygame.font.SysFont('Comic Sans MS', 20)
+    subtitle = subtitle_font.render('By: David Yam + Vincent Vo', True, (0,0,0))
+    subtitle_rect = title.get_rect(center=(SCREEN_WIDTH/2 + 60, SCREEN_HEIGHT/2 + 100))
 
     while running and not leaveScreen:
         keys = pygame.key.get_pressed()
@@ -34,14 +46,18 @@ def game_intro():
                 leaveScreen = True
     
         #Rendering new things onto screen
-        screen.fill('white')
+        screen.fill((211, 211, 222))
+        screen.blit(title, title_rect)
+        screen.blit(subtitle, subtitle_rect)
+            #play button
+            #how to play button
 
         #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
 
 
-def game_recording():
+def recording_screen():
     global running
     global leaveScreen
     
@@ -68,9 +84,11 @@ def game_recording():
         clock.tick(60)
 
 
-game_intro()
-game_recording()
-#game_guessing()
-    #should we display the correct answer?
-    #way to go back to the intro screen?
+title_screen()
+    #moving title text?
+    #play button changes color?
+recording_screen()
+#guessing_screen()
+#end_screen()
+    #way to navigate back to title screen
 pygame.quit()
