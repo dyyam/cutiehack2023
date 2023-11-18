@@ -16,10 +16,13 @@ pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 pygame.font.init()
 
-buttonSizeScale = (80, 80)
+buttonSizeScale = (50, 50)
 redplaybutton = pygame.transform.scale(pygame.image.load("images/redplay.png"), buttonSizeScale)
 greenplaybutton = pygame.transform.scale(pygame.image.load("images/greenplay.png"), buttonSizeScale)
 
+speakingSizeScale = (150, 150)
+notspeaking = pygame.transform.scale(pygame.image.load('./images/notspeaking.png'), speakingSizeScale)
+speaking = pygame.transform.scale(pygame.image.load('./images/speaking.png'), speakingSizeScale)
 
 #Setting up Global Variables
 SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
@@ -64,29 +67,52 @@ def title_screen():
 
 
 def recording_screen():
+    title_font = pygame.font.SysFont('Comic Sans MS', 40)
+    title = title_font.render('Try to mimic the prompt as best you can!', True, (0, 0, 0))
+    title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/16))
+
+    prompt_font = pygame.font.SysFont('Comic Sans MS', 35)
+    prompt = prompt_font.render('Your prompt is: Dog', True, (200, 0, 0))
+    prompt_rect = prompt.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/8))
+
+    sample_font = pygame.font.SysFont('Comic Sans MS', 30)
+    sample = sample_font.render('Sample sound', True, (0, 0, 0))
+    sample_rect = sample.get_rect(center=(SCREEN_WIDTH/2.1, SCREEN_HEIGHT/5))
+
+    instruct_font = pygame.font.SysFont('Comic Sans MS', 30)
+    instruct = instruct_font.render('Hold SPACE to record!', True, (0, 0, 0))
+    instruct_rect = instruct.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+
+
+    
+
     global running
     global leaveScreen
 
     leaveScreen = False
+    
     while running and not leaveScreen:
         #Poll for events
         keys = pygame.key.get_pressed()
+        talking = False              
         for event in pygame.event.get():
-            # print(event)
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 running = False
-            # elif keys[pygame.K_RETURN]:
-            #     leaveScreen = True
             elif keys[pygame.K_SPACE]:
-                #code
+                speaking = True
                 ra.record()
-
-        
 
         #Rendering new things onto screen
         screen.fill(color)
             #screen.blit //puts images onto screen
-        playSoundButton(100, 100, 100, 100, redplaybutton, "sounds/dog/dog1.wav")
+        screen.blit(title, title_rect)
+        screen.blit(prompt, prompt_rect)
+        screen.blit(sample, sample_rect)
+        screen.blit(instruct, instruct_rect)
+        
+        talkingHead()
+
+        playSoundButton(SCREEN_WIDTH/1.8, SCREEN_HEIGHT/6, buttonSizeScale[0], buttonSizeScale[1], redplaybutton, "sounds/dog/dog1.wav")
         #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
@@ -103,6 +129,13 @@ def playSoundButton(x, y, w, h, img, soundFile):
     if on_button:
         if click[0] == 1:
             ra.playAudio(soundFile)
+
+def talkingHead():
+    key = pygame.key.get_pressed()
+    if (key[pygame.K_SPACE]):
+        screen.blit(speaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
+    else:
+        screen.blit(notspeaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
 
 
 title_screen()
