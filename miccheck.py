@@ -54,8 +54,6 @@ def title_screen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 running = False
-            elif keys[pygame.K_RETURN]:
-                leaveScreen = True
     
         #Rendering new things onto screen
         screen.fill((172,229,238))
@@ -140,8 +138,6 @@ def guessing_screen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 running = False
-            elif keys[pygame.K_RETURN]:
-                leaveScreen = True
     
         #Rendering new things onto screen
         screen.fill((211, 211, 222))
