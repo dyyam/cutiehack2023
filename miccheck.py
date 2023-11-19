@@ -237,6 +237,8 @@ def end_screen():
     play = pygame.transform.scale(pygame.image.load("images/greenplay.png"), (100, 100))
     title_button = pygame.transform.scale(pygame.image.load('./images/titlebutton.png'), (300, 100))
     quit_button = pygame.transform.scale(pygame.image.load('./images/quit.png'), (300, 100))
+    firewoork = pygame.image.load("images/firework.png")
+
 
     if choice == 'correct':
         title = 'LEZ GOOO! CORRECT!'
@@ -261,10 +263,14 @@ def end_screen():
         screen.blit(title, title_rect)
         if choice == "wrong":
             screen.blit(subtitle, subtitle_rect)
+        else:
+            screen.blit(firewoork, firewoork.get_rect(center=(SCREEN_WIDTH/8 +50, SCREEN_HEIGHT/2)))
+            screen.blit(firewoork, firewoork.get_rect(center=(SCREEN_WIDTH/1.2 -50, SCREEN_HEIGHT/2.2)))
 
         playSoundButton(SCREEN_WIDTH/2.1, SCREEN_HEIGHT/4, buttonSizeScale[0], buttonSizeScale[1], play, "sounds/output.wav")
         submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2.6, submitSizeScale[0], submitSizeScale[1], title_button, 0)
         submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.8, submitSizeScale[0], submitSizeScale[1], quit_button, -1)
+        
 
         #Updating displaying the new screen
         pygame.display.update()
