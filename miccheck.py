@@ -14,6 +14,7 @@ pygame.display.set_icon(pygame.image.load('./images/miccheck_icon.png'))
 clock = pygame.time.Clock()
 pygame.font.init()
 
+spotlight = pygame.transform.scale(pygame.image.load('./images/spotlight1.png'), (400, 500))
 
 buttonSizeScale = (50, 50)
 redplaybutton = pygame.transform.scale(pygame.image.load("images/redplay.png"), buttonSizeScale)
@@ -63,6 +64,8 @@ def title_screen():
         #Rendering new things onto screen
         screen.fill((172,229,238))
         screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 200)))
+        screen.blit(spotlight, spotlight.get_rect(center=(SCREEN_WIDTH/8 +50, SCREEN_HEIGHT/2)))
+        screen.blit(pygame.transform.flip(spotlight, True, False), spotlight.get_rect(center=(SCREEN_WIDTH/1.2 -50, SCREEN_HEIGHT/2)))
         screen.blit(title, title_rect)
         screen.blit(subtitle, subtitle_rect)
         submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], title_playbutton, 2)
@@ -260,8 +263,8 @@ def end_screen():
             screen.blit(subtitle, subtitle_rect)
 
         playSoundButton(SCREEN_WIDTH/2.1, SCREEN_HEIGHT/4, buttonSizeScale[0], buttonSizeScale[1], play, "sounds/output.wav")
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2.2, submitSizeScale[0], submitSizeScale[1], title_button, 0)
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.6, submitSizeScale[0], submitSizeScale[1], quit_button, -1)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2.6, submitSizeScale[0], submitSizeScale[1], title_button, 0)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.8, submitSizeScale[0], submitSizeScale[1], quit_button, -1)
 
         #Updating displaying the new screen
         pygame.display.update()
