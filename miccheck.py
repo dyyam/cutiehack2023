@@ -108,6 +108,7 @@ def recording_screen():
                 ra.record()
         
 
+
         #Rendering new things onto screen
         screen.fill(color)
             #screen.blit //puts images onto screen
@@ -141,7 +142,7 @@ def guessing_screen():
     prompt_rect = prompt.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/8))
 
     leaveScreen = False
-    
+
     selected = 0
 
     while running and not leaveScreen:
@@ -167,11 +168,15 @@ def guessing_screen():
         playSoundButton(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog3.wav")
         playSoundButton(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog4.wav")
 
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2, submitSizeScale[0], submitSizeScale[1], submitbutton)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], submitbutton)
 
         #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
+
+
+def end_screen():
+    print('hello')
 
 
 def playSoundButton(x, y, w, h, img, soundFile):
@@ -236,10 +241,7 @@ def talkingHead():
 
 
 title_screen()
-    #moving title text?
-    #play button changes color?
 recording_screen()
 guessing_screen()
-#end_screen()
-    #way to navigate back to title screen
+end_screen()
 pygame.quit()
