@@ -4,6 +4,7 @@ import sys
 import pyaudio
 import pygame
 import recordAudio as ra
+from time import sleep
 
 
 #Setting up the Game
@@ -20,6 +21,13 @@ buttonSizeScale = (50, 50)
 redplaybutton = pygame.transform.scale(pygame.image.load("images/redplay.png"), buttonSizeScale)
 greenplaybutton = pygame.transform.scale(pygame.image.load("images/greenplay.png"), buttonSizeScale)
 title_playbutton = pygame.image.load("./images/play_button.png")
+choice1 = pygame.transform.scale(pygame.image.load("images/choice1.png"), buttonSizeScale)
+choice2 = pygame.transform.scale(pygame.image.load("images/choice2.png"), buttonSizeScale)
+choice3 = pygame.transform.scale(pygame.image.load("images/choice3.png"), buttonSizeScale)
+choice4 = pygame.transform.scale(pygame.image.load("images/choice4.png"), buttonSizeScale)
+choice5 = pygame.transform.scale(pygame.image.load("images/choice5.png"), buttonSizeScale)
+checkmark = pygame.transform.scale(pygame.image.load("images/checkmark.png"), buttonSizeScale)
+
 speakingSizeScale = (150, 150)
 notspeaking = pygame.transform.scale(pygame.image.load('./images/notspeaking.png'), speakingSizeScale)
 speaking = pygame.transform.scale(pygame.image.load('./images/speaking.png'), speakingSizeScale)
@@ -100,7 +108,6 @@ def recording_screen():
                 ra.record()
         
 
-
         #Rendering new things onto screen
         screen.fill(color)
             #screen.blit //puts images onto screen
@@ -121,6 +128,8 @@ def recording_screen():
 def guessing_screen():
     global running
     global leaveScreen
+    global selected
+
 
     #Setting the Text Size, Font, and Placement
     title_font = pygame.font.SysFont('Comic Sans MS', 40)
@@ -132,6 +141,8 @@ def guessing_screen():
     prompt_rect = prompt.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/8))
 
     leaveScreen = False
+    
+    selected = 0
 
     while running and not leaveScreen:
         keys = pygame.key.get_pressed()
@@ -143,6 +154,20 @@ def guessing_screen():
         screen.fill((211, 211, 222))
         screen.blit(title, title_rect)
         screen.blit(prompt, prompt_rect)
+
+        choiceButton(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/5, choice1, 1)
+        choiceButton(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/5, choice2, 2, correct=True)
+        choiceButton(SCREEN_WIDTH/2, SCREEN_HEIGHT/5, choice3, 3)
+        choiceButton(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/5, choice4, 4)
+        choiceButton(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/5, choice5, 5)
+
+        playSoundButton(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog1.wav")
+        playSoundButton(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/output.wav")
+        playSoundButton(SCREEN_WIDTH/2, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog2.wav")
+        playSoundButton(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog3.wav")
+        playSoundButton(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog4.wav")
+
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2, submitSizeScale[0], submitSizeScale[1], submitbutton)
 
         #Updating displaying the new screen
         pygame.display.update()
@@ -176,6 +201,30 @@ def submitButton(x, y, w, h, img):
     if on_button:
         if click[0] == 1:
             leaveScreen = True
+
+def choiceButton(x, y, img, num, correct=False):
+    global choice
+    global selected
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    rect = pygame.Rect(x, y, buttonSizeScale[0], buttonSizeScale[1])
+    on_button = rect.collidepoint(mouse)
+    
+    if selected == num:
+        screen.blit(checkmark, checkmark.get_rect(center = rect.center))
+    else:
+        screen.blit(img, img.get_rect(center = rect.center))
+
+    if on_button:
+        screen.blit(checkmark, checkmark.get_rect(center = rect.center))
+        if click[0] == 1:
+            selected = num
+            if correct:
+                choice = "correct"
+            else:
+                choice = "wrong"
+    
 
 
 def talkingHead():
