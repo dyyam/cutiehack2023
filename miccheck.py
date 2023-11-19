@@ -34,13 +34,15 @@ speaking = pygame.transform.scale(pygame.image.load('./images/speaking.png'), sp
 
 submitSizeScale = (300, 100)
 submitbutton = pygame.transform.scale(pygame.image.load('./images/submitbutton.png'), submitSizeScale)
+howtobutton = pygame.transform.scale(pygame.image.load('./images/howto.png'), (200, 66))
+titlebutton = pygame.transform.scale(pygame.image.load('./images/titlebutton.png'), (200, 66))
 
 #Setting up Global Variables
 SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
 leaveScreen = False
 running = True
 color = (245, 245, 220)
-
+window = 0
 
 def title_screen():
     global running
@@ -56,6 +58,7 @@ def title_screen():
     subtitle_rect = title.get_rect(center=(SCREEN_WIDTH/2 + 60, SCREEN_HEIGHT/2 + 120))
 
     icon = pygame.transform.scale(pygame.image.load("images/miccheck_icon.png"), (350, 300))
+    leaveScreen = False
 
     while running and not leaveScreen:
         keys = pygame.key.get_pressed()
@@ -70,12 +73,13 @@ def title_screen():
         screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 200)))
         screen.blit(title, title_rect)
         screen.blit(subtitle, subtitle_rect)
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], title_playbutton)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], title_playbutton, 2)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.19, submitSizeScale[0], submitSizeScale[1], howtobutton, 1)
 
         #Updating displaying the new screen
         pygame.display.update()
         clock.tick(60)
-
+    
 
 def recording_screen():
     title_font = pygame.font.SysFont('Comic Sans MS', 40)
@@ -120,7 +124,7 @@ def recording_screen():
         
         talkingHead()
         playSoundButton(SCREEN_WIDTH/1.8, SCREEN_HEIGHT/6, buttonSizeScale[0], buttonSizeScale[1], redplaybutton, "sounds/dog/dog1.wav")
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.9, submitSizeScale[0], submitSizeScale[1], submitbutton)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.9, submitSizeScale[0], submitSizeScale[1], submitbutton, 3)
         
         #Updating displaying the new screen
         pygame.display.update()
@@ -169,7 +173,7 @@ def guessing_screen():
         playSoundButton(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog3.wav")
         playSoundButton(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog4.wav")
 
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], submitbutton)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], submitbutton, 4)
 
         #Updating displaying the new screen
         pygame.display.update()
@@ -185,22 +189,41 @@ def howto_screen():
     title = title_font.render('How to Play', True, (0, 0, 0))
     title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/16))
 
+    instruction_font = pygame.font.SysFont('Comic Sans MS', 20)
+    instruction1 = instruction_font.render('To begin the game, one person is given a prompt and', True, (0, 0, 0))
+    instruction_rect1 = instruction1.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/1.7))
+    instruction2 = instruction_font.render('must record an clip of their best impression. Their', True, (0, 0, 0))
+    instruction_rect2 = instruction2.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/1.7 + 25))
+    instruction3 = instruction_font.render('clip is shuffled alongside multiple clips of the', True, (0, 0, 0))
+    instruction_rect3 = instruction3.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/1.7 + 50))
+    instruction4 = instruction_font.render('actual prompt where the rest have to identify', True, (0, 0, 0))
+    instruction_rect4 = instruction4.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/1.7 + 75))
+    instruction5 = instruction_font.render('which one is the imposter!', True, (0, 0, 0))
+    instruction_rect5 = instruction5.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/1.7 + 100))
+
+
     icon = pygame.transform.scale(pygame.image.load("images/miccheck_bg.png"), (350, 300))
+
+    leaveScreen = False
 
     while running and not leaveScreen:
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 running = False
-            elif keys[pygame.K_RETURN]:
-                leaveScreen = True
     
         #Rendering new things onto screen
-        screen.fill((172,229,238))
-        screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 200)))
+        screen.fill((100,100,126))
         screen.blit(title, title_rect)
+        screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/3)))
+        screen.blit(instruction1, instruction_rect1)
+        screen.blit(instruction2, instruction_rect2)
+        screen.blit(instruction3, instruction_rect3)
+        screen.blit(instruction4, instruction_rect4)
+        screen.blit(instruction5, instruction_rect5)
         
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], how)
+        
+        submitButton(SCREEN_WIDTH/1.5, SCREEN_HEIGHT/1.2, submitSizeScale[0], submitSizeScale[1], titlebutton, 0)
 
         #Updating displaying the new screen
         pygame.display.update()
@@ -221,8 +244,9 @@ def playSoundButton(x, y, w, h, img, soundFile):
             ra.playAudio(soundFile)
 
 
-def submitButton(x, y, w, h, img):
+def submitButton(x, y, w, h, img, nextwindow):
     global leaveScreen
+    global window
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
@@ -234,6 +258,8 @@ def submitButton(x, y, w, h, img):
     if on_button:
         if click[0] == 1:
             leaveScreen = True
+            window = nextwindow
+            
 
 def choiceButton(x, y, img, num, correct=False):
     global choice
@@ -259,7 +285,6 @@ def choiceButton(x, y, img, num, correct=False):
                 choice = "wrong"
     
 
-
 def talkingHead():
     key = pygame.key.get_pressed()
     if (key[pygame.K_SPACE]):
@@ -268,11 +293,18 @@ def talkingHead():
         screen.blit(notspeaking, (SCREEN_WIDTH/2.3, SCREEN_HEIGHT/4))
 
 
-title_screen()
-    #moving title text?
-    #play button changes color?
-recording_screen()
-guessing_screen()
-#end_screen()
-    #way to navigate back to title screen
-pygame.quit()
+if __name__ == "__main__":
+    while running:
+        if window == 0:
+            title_screen()
+        elif window == 1:
+            howto_screen()
+        elif window == 2:
+            recording_screen()
+        elif window == 3:
+            guessing_screen()
+        elif window == 4:
+            end_screen()
+        else:
+            pygame.quit()
+
