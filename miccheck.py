@@ -120,7 +120,7 @@ def recording_screen():
         
         talkingHead()
         playSoundButton(SCREEN_WIDTH/1.8, SCREEN_HEIGHT/6, buttonSizeScale[0], buttonSizeScale[1], redplaybutton, "sounds/dog/dog1.wav")
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.8, submitSizeScale[0], submitSizeScale[1], submitbutton)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.9, submitSizeScale[0], submitSizeScale[1], submitbutton)
         
         #Updating displaying the new screen
         pygame.display.update()
@@ -169,7 +169,38 @@ def guessing_screen():
         playSoundButton(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog3.wav")
         playSoundButton(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/3.5, buttonSizeScale[0], buttonSizeScale[1], greenplaybutton, "sounds/dog/dog4.wav")
 
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2, submitSizeScale[0], submitSizeScale[1], submitbutton)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], submitbutton)
+
+        #Updating displaying the new screen
+        pygame.display.update()
+        clock.tick(60)
+
+
+def howto_screen():
+    global running
+    global leaveScreen
+
+    #Setting the Text Size, Font, and Placement
+    title_font = pygame.font.SysFont('Comic Sans MS', 40)
+    title = title_font.render('How to Play', True, (0, 0, 0))
+    title_rect = title.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/16))
+
+    icon = pygame.transform.scale(pygame.image.load("images/miccheck_bg.png"), (350, 300))
+
+    while running and not leaveScreen:
+        keys = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
+                running = False
+            elif keys[pygame.K_RETURN]:
+                leaveScreen = True
+    
+        #Rendering new things onto screen
+        screen.fill((172,229,238))
+        screen.blit(icon, icon.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 200)))
+        screen.blit(title, title_rect)
+        
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.4, submitSizeScale[0], submitSizeScale[1], how)
 
         #Updating displaying the new screen
         pygame.display.update()
