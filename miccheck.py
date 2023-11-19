@@ -263,8 +263,8 @@ def end_screen():
             screen.blit(subtitle, subtitle_rect)
 
         playSoundButton(SCREEN_WIDTH/2.1, SCREEN_HEIGHT/4, buttonSizeScale[0], buttonSizeScale[1], play, "sounds/output.wav")
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2, submitSizeScale[0], submitSizeScale[1], title_button)
-        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.5, submitSizeScale[0], submitSizeScale[1], quit_button)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/2, submitSizeScale[0], submitSizeScale[1], title_button, 0)
+        submitButton(SCREEN_WIDTH/2.6, SCREEN_HEIGHT/1.5, submitSizeScale[0], submitSizeScale[1], quit_button, -1)
 
         #Updating displaying the new screen
         pygame.display.update()
@@ -288,6 +288,7 @@ def playSoundButton(x, y, w, h, img, soundFile):
 def submitButton(x, y, w, h, img, nextwindow):
     global leaveScreen
     global window
+    global running
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
@@ -299,6 +300,8 @@ def submitButton(x, y, w, h, img, nextwindow):
     if on_button:
         if click[0] == 1:
             leaveScreen = True
+            if nextwindow == -1:
+                running = False
             window = nextwindow
             
 
