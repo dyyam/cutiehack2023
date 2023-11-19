@@ -14,7 +14,6 @@ pygame.display.set_icon(pygame.image.load('./images/miccheck_icon.png'))
 clock = pygame.time.Clock()
 pygame.font.init()
 
-spotlight = pygame.transform.scale(pygame.image.load('./images/spotlight1.png'), (400, 500))
 
 buttonSizeScale = (50, 50)
 redplaybutton = pygame.transform.scale(pygame.image.load("images/redplay.png"), buttonSizeScale)
@@ -53,6 +52,7 @@ def title_screen():
     subtitle_rect = title.get_rect(center=(SCREEN_WIDTH/2 + 60, SCREEN_HEIGHT/2 + 120))
 
     icon = pygame.transform.scale(pygame.image.load("images/miccheck_icon.png"), (350, 300))
+    spotlight = pygame.transform.scale(pygame.image.load('./images/spotlight1.png'), (400, 500))
     leaveScreen = False
 
     while running and not leaveScreen:
@@ -116,7 +116,7 @@ def howto_screen():
         screen.blit(instruction3, instruction_rect3)
         screen.blit(instruction4, instruction_rect4)
         screen.blit(instruction5, instruction_rect5)
-        submitButton(SCREEN_WIDTH/1.5, SCREEN_HEIGHT/1.2, submitSizeScale[0], submitSizeScale[1], titlebutton, 0)
+        submitButton(0, 0, submitSizeScale[0], submitSizeScale[1], titlebutton, 0)
 
         #Updating displaying the new screen
         pygame.display.update()
