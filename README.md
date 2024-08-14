@@ -1,5 +1,5 @@
 # cutiehack2023
-# This is David and Vincent's MicCheck Game
+# This is David and Vicki's MicCheck Game
 
 ## Created for CutieHack 2023 Hackathon
 https://devpost.com/software/mic-check
